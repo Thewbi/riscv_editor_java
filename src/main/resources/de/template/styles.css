@@ -1,0 +1,29 @@
+.button {
+    -fx-font-weight: bold;
+}
+
+/* #codeArea_1 {
+    -fx-background-color: red;
+    -fx-font-weight: bold;
+} */
+
+.test {
+    -fx-background-color: yellow;
+}
+
+.red {
+    -fx-fill: red;
+    -fx-background-color: yellow;
+}
+
+.green {
+    -fx-fill: green;
+}
+
+.blue {
+    -fx-fill: blue;
+}
+
+.bold {
+    -fx-font-weight: bold;
+}
