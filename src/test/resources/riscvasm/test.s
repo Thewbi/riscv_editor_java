@@ -1,5 +1,11 @@
-        .global add3
-        .text
-add3:   add a0, a0, a1      # a0 = a0 + a1
-        add a0, a0, a2      # a0 = a0 + a2
-        ret                 # return value in a0
+    li t0, 0            # t0 = 0
+    li t2, 10           # t2 = 10
+
+loop_head:
+    bge t0, t2, loop_end
+                    # Repeated code goes here
+    addi t0, t0, 1
+    j loop_head
+
+loop_end:
+    ret

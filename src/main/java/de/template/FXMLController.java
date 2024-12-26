@@ -16,6 +16,8 @@ import org.fxmisc.richtext.InlineCssTextArea;
 import org.fxmisc.richtext.LineNumberFactory;
 
 import com.mycompany.assembler.RiscVAssembler;
+import com.mycompany.cpu.CPU;
+import com.mycompany.data.Register;
 import com.mycompany.data.Section;
 import com.mycompany.linkerscriptparser.LinkerScriptParser;
 import com.mycompany.preprocessing.IncludePreprocessor;
@@ -28,7 +30,9 @@ import javafx.scene.control.Label;
 
 public class FXMLController {
 
-    private RiscVAssembler riscVAssembler;
+    private RiscVAssembler riscVAssembler = new RiscVAssembler();
+
+    private CPU cpu = new CPU();
 
     private int lineIndex = 0;
 
@@ -49,29 +53,46 @@ public class FXMLController {
         System.out.println("You clicked me!");
         //label.setText("Hello World!");
 
+        // var asmLines = riscVAssembler.asmLines;
+
+        // // TODObuild line indexes
+
+        // if (lineIndex == 0) {
+        //     for (var asmLine : asmLines) {
+
+        //         if (asmLine.mnemonic != null) {
+        //             //long offset = asmLine.offset;
+                    
+        //             break;
+        //         }
+
+        //         // todo handle special case of pseudo instructions
+        //         lineIndex++;
+        //     }
+        // } else {
+        //     lineIndex++;
+        // }
+
+        // highlightRow(lineIndex);
+
+        cpu.step();
+
+
         var asmLines = riscVAssembler.asmLines;
 
         // TODObuild line indexes
 
-        
+        for (var asmLine : asmLines) {
 
-        if (lineIndex == 0) {
-            for (var asmLine : asmLines) {
+            if (asmLine.mnemonic != null) {
+                if (asmLine.offset == cpu.pc) {
+                    System.out.println(asmLine);
 
-                if (asmLine.mnemonic != null) {
-                    //long offset = asmLine.offset;
-                    
+                    highlightRow(asmLine.sourceLine - 1);
                     break;
                 }
-
-                // todo handle special case of pseudo instructions
-                lineIndex++;
             }
-        } else {
-            lineIndex++;
         }
-
-        highlightRow(lineIndex);
     }
 
     public void highlightRow(final int index) {
@@ -97,32 +118,33 @@ add3:   add a0, a0, a1      # a0 = a0 + a1
 */
     public void initialize() throws IOException {
 
-        // create build folder
-        Files.createDirectories(Paths.get("build"));
-
-        //String inputFile = "src/test/resources/projects/snake/Main.asm";
-        String inputFile = "src/test/resources/riscvasm/test.s";
-        String outputFile = "build/preprocessed.s";
-
-        //
-        // preprocess
-        //
-
-        // the first step is always to let the preprocessor resolve .include
-        // instructions. Let the compiler run on the combined file in a second step!
-
-        preprocess(inputFile, outputFile);
-
-        riscVAssembler = assemble(inputFile, outputFile);
-
         /**/
         codeArea_1.setParagraphGraphicFactory(LineNumberFactory.get(codeArea_1));
 
-        codeArea_1.replaceText("        .global add3\n" +
-                        "        .text\n" +
-                        "add3:   add a0, a0, a1      # a0 = a0 + a1\n" +
-                        "        add a0, a0, a2      # a0 = a0 + a2\n" +
-                        "        ret                 # return value in a0");
+        // codeArea_1.replaceText("        .global add3\n" +
+        //                 "        .text\n" +
+        //                 "add3:   add a0, a0, a1      # a0 = a0 + a1\n" +
+        //                 "        add a0, a0, a2      # a0 = a0 + a2\n" +
+        //                 "        ret                 # return value in a0");
+
+        // codeArea_1.replaceText(
+        //                 "        .global add3\n" + //
+        //                 "        .text\n" + //
+        //                 "add3:   li t0, 0\n" + //
+        //                 "        ret                 # return value in a0");
+
+        codeArea_1.replaceText("    li t0, 0            # t0 = 0\n" + //
+                        "    li t2, 10           # t2 = 10\n" + //
+                        "\n" + //
+                        "loop_head:\n" + //
+                        "    bge t0, t2, loop_end\n" + //
+                        "                    # Repeated code goes here\n" + //
+                        "    addi t0, t0, 1\n" + //
+                        "    j loop_head\n" + //
+                        "\n" + //
+                        "loop_end:\n" + //
+                        "   ret");
+
 
         codeArea_1.textProperty().addListener(new ChangeListener() {
 
@@ -148,12 +170,70 @@ add3:   add a0, a0, a1      # a0 = a0 + a1
 
             // highlightRow(2);
         });
+
+        // create build folder
+        Files.createDirectories(Paths.get("build"));
+
+        //String inputFile = "src/test/resources/projects/snake/Main.asm";
+        String inputFile = "src/test/resources/riscvasm/test.s";
+        String outputFile = "build/preprocessed.s";
+
+        //
+        // preprocess
+        //
+
+        // the first step is always to let the preprocessor resolve .include
+        // instructions. Let the compiler run on the combined file in a second step!
+
+        preprocess(inputFile, outputFile);
+
+        byte[] machineCode = assemble(inputFile, outputFile);
+
+        //
+        // CPU
+        //
+        
+        cpu.pc = 0;
+        cpu.memory = machineCode;
+
+        cpu.registerFile[Register.REG_A1.ordinal()] = 1;
+        cpu.registerFile[Register.REG_A2.ordinal()] = 5;
+
+        // for (int i = 0; i < 100; i++) {
+        //     cpu.step();
+        // }
+
+        var asmLines = riscVAssembler.asmLines;
+
+        // TODObuild line indexes
+
+        if (lineIndex == 0) {
+            for (var asmLine : asmLines) {
+
+                if (asmLine.mnemonic != null) {
+                    if (asmLine.offset == cpu.pc) {
+                        System.out.println(asmLine);
+
+                        if (asmLine.pseudoInstructionAsmLine != null) {
+                            highlightRow(asmLine.pseudoInstructionAsmLine.sourceLine - 1);
+                        } else {
+                            highlightRow(asmLine.sourceLine - 1);
+                        }
+                        break;
+                    }
+                }
+
+                // todo handle special case of pseudo instructions
+                lineIndex++;
+            }
+
+        } else {
+            lineIndex++;
+        }
          
     }
     
-    private RiscVAssembler assemble(final String inputFile, final String outputFile) throws FileNotFoundException, IOException {
-
-        
+    private byte[] assemble(final String inputFile, final String outputFile) throws FileNotFoundException, IOException {
 
         //
         // linker script
@@ -170,10 +250,10 @@ add3:   add a0, a0, a1      # a0 = a0 + a1
 
         String asmInputFile = "build/preprocessed.s";
 
-        RiscVAssembler riscVAssembler = new RiscVAssembler();
-        riscVAssembler.assemble(sectionMap, asmInputFile);
+        
+        byte[] machineCode = riscVAssembler.assemble(sectionMap, asmInputFile);
                 
-        return riscVAssembler;
+        return machineCode;
     }
 
     private static void preprocess(final String inputFile, final String outputFile) throws FileNotFoundException, IOException {
