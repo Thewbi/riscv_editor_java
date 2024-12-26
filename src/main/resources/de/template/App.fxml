@@ -6,27 +6,66 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import org.fxmisc.richtext.CodeArea?>
 <?import org.fxmisc.flowless.VirtualizedScrollPane?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefWidth="1024" prefHeight="800" fx:controller="de.template.FXMLController"
-    xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171">
+<BorderPane fx:controller="de.template.FXMLController" xmlns:fx="http://javafx.com/fxml/1" 
+    prefHeight="1200" prefWidth="1000">
+        
+    <top>
+        <ToolBar fx:id="tbTextColor">
 
-    <children>
-        <!--
-        <Button layoutX="126" layoutY="90" onAction="#handleButtonAction" text="Click Me!" />
-        <Label fx:id="label" layoutX="126" layoutY="120" minHeight="16" minWidth="69" />
-        -->
+            <Button fx:id="btnRed" onAction="#handleButtonAction">
+                <graphic>
+                    <ImageView id="boxImage" pickOnBounds="true" preserveRatio="true" fitHeight="30.0">
+                        <image>
+                            <Image url="@clipart2753758.png" />
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
 
-        <!--
-        <TextArea fx:id="textArea" layoutX="200.0" layoutY="30.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-        -->
+            <!--more buttons-->
 
-        <VirtualizedScrollPane
-            fx:id="sourceContainerTextScreenVirtualizedScrollPane" 
-            AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-            <content> 
-                <CodeArea fx:id="codeArea_1" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-            </content> 
-        </VirtualizedScrollPane> 
-    </children>
+        </ToolBar>
+    </top>
+    <left>
+        <Label text="Who are you?"/>
+    </left>
+    <center>
+        <AnchorPane id="AnchorPane" prefWidth="1024" prefHeight="800" 
+            xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171">
 
-</AnchorPane>
+            <children>
+                <!--
+                <Button layoutX="126" layoutY="90" onAction="#handleButtonAction" text="Click Me!" />
+                <Label fx:id="label" layoutX="126" layoutY="120" minHeight="16" minWidth="69" />
+                -->
+
+                <!--
+                <TextArea fx:id="textArea" layoutX="200.0" layoutY="30.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                -->
+
+                <VirtualizedScrollPane
+                    fx:id="sourceContainerTextScreenVirtualizedScrollPane" 
+                    AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <content> 
+                        <CodeArea fx:id="codeArea_1" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                    </content> 
+                </VirtualizedScrollPane>
+                
+            </children>
+
+        </AnchorPane>
+    </center>
+    <right>
+        <Button id="button"  text="Click Me!" 
+            onAction="#handleButtonAction" fx:id="button"/>
+    </right>
+    <bottom>
+        <Label id="label" fx:id="label"/>
+    </bottom>
+
+</BorderPane>
+
