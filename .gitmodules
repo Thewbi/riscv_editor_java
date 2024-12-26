@@ -1,0 +1,3 @@
+[submodule "riscvassembler_java"]
+	path = riscvassembler_java
+	url = https://github.com/Thewbi/riscvassembler_java
