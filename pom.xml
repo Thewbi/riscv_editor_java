@@ -24,8 +24,8 @@
     <dependencies>
 
         <dependency>
-            <groupId>com.mycompany.app</groupId>
-            <artifactId>my-app</artifactId>
+            <groupId>com.riscv</groupId>
+            <artifactId>riscv</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
@@ -49,7 +49,7 @@
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
-            <artifactId>javafx-graphics </artifactId>
+            <artifactId>javafx-graphics</artifactId>
             <version>20</version>
             <classifier>win</classifier>
         </dependency>
@@ -124,37 +124,26 @@
 
     <build>
 
-	
         <!-- define JavaFx files as resources to include them in the jar -->
         <resources>
-            <!--
-            <resource>
-                    <directory>${basedir}/src/main/resources</directory>
-                    <filtering>false</filtering>
-                    <targetPath>foo/baa/view</targetPath>
-            </resource>
-            -->
             <resource>
                 <directory>${basedir}/src/main/resources</directory>
-                <!--
-                <includes>
-                        <include>**/*.xml</include>
-                </includes>
-                <filtering>true</filtering>
-                -->
             </resource>
         </resources>
 
-
         <plugins>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
+                <version>3.8.1</version>
                 <configuration>
                     <release>11</release>
+                    <source>20</source>
+                    <target>20</target>
                 </configuration>
             </plugin>
+
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
@@ -163,7 +152,31 @@
                     <mainClass>de.template.App</mainClass>
                 </configuration>
             </plugin>
-			
+
+
+            <!-- Default configuration for running with: mvn clean javafx:run
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.8</version>
+                <executions>
+                    <execution>
+                        <id>default-cli</id>
+                        <configuration>
+                            <mainClass>de.template.App</mainClass>
+                            <launcher>app</launcher>
+                            <compress>2</compress>
+                            <jlinkZipName>app</jlinkZipName>
+                            <jlinkImageName>app</jlinkImageName>
+                            <noManPages>true</noManPages>
+                            <stripDebug>true</stripDebug>
+                            <noHeaderFiles>true</noHeaderFiles>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            -->
+
         </plugins>
     </build>
 </project>
