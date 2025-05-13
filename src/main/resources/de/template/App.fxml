@@ -2,7 +2,9 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import org.fxmisc.richtext.CodeArea?>
 <?import org.fxmisc.flowless.VirtualizedScrollPane?>
@@ -10,8 +12,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane fx:controller="de.template.FXMLController" xmlns:fx="http://javafx.com/fxml/1"
-    prefHeight="800" prefWidth="1000">
+<BorderPane fx:controller="de.template.FXMLController" xmlns:fx="http://javafx.com/fxml/1" prefHeight="800" prefWidth="1000">
 
     <top>
         <ToolBar fx:id="tbTextColor">
@@ -34,8 +35,7 @@
         <Label text="Who are you?"/>
     </left> -->
     <center>
-        <AnchorPane id="AnchorPane" prefWidth="800" prefHeight="1000"
-            xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171">
+        <AnchorPane id="AnchorPane" prefWidth="800" prefHeight="1000" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171">
 
             <children>
                 <!--
@@ -66,10 +66,131 @@
 
         </AnchorPane>
     </center>
-    <!-- <right>
-        <Button id="button"  text="Click Me!"
-            onAction="#handleButtonAction" fx:id="button"/>
-    </right> -->
+
+    <!-- Right part of the border pane -->
+    <right>
+        <!-- <Button id="button" text="Click Me!" onAction="#handleButtonAction" fx:id="button" /> -->
+
+        <ScrollPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="341.0" prefWidth="202.0" vbarPolicy="ALWAYS">
+        <GridPane hgap="10" style="-fx-padding: 5 5 5 5;">
+
+            <Label GridPane.rowIndex="0" GridPane.columnIndex="0" text="zero x0" />
+            <TextField GridPane.rowIndex="0" GridPane.columnIndex="1" fx:id="textField_x0" />
+
+            <Label GridPane.rowIndex="1" GridPane.columnIndex="0" text="ra x1" />
+            <TextField GridPane.rowIndex="1" GridPane.columnIndex="1" fx:id="textField_x1" />
+
+            <Label GridPane.rowIndex="2" GridPane.columnIndex="0" text="sp x2" />
+            <TextField GridPane.rowIndex="2" GridPane.columnIndex="1" fx:id="textField_x2" />
+
+            <Label GridPane.rowIndex="3" GridPane.columnIndex="0" text="gp x3" />
+            <TextField GridPane.rowIndex="3" GridPane.columnIndex="1" fx:id="textField_x3" />
+
+            <Label GridPane.rowIndex="4" GridPane.columnIndex="0" text="tp x4" />
+            <TextField GridPane.rowIndex="4" GridPane.columnIndex="1" fx:id="textField_x4" />
+
+            <Label GridPane.rowIndex="5" GridPane.columnIndex="0" text="t0 x5" />
+            <TextField GridPane.rowIndex="5" GridPane.columnIndex="1" fx:id="textField_x5" />
+
+            <Label GridPane.rowIndex="6" GridPane.columnIndex="0" text="t1 x6" />
+            <TextField GridPane.rowIndex="6" GridPane.columnIndex="1" fx:id="textField_x6" />
+
+            <Label GridPane.rowIndex="7" GridPane.columnIndex="0" text="t2 x7" />
+            <TextField GridPane.rowIndex="7" GridPane.columnIndex="1" fx:id="textField_x7" />
+
+            <Label GridPane.rowIndex="8" GridPane.columnIndex="0" text="s0/fp x8" />
+            <TextField GridPane.rowIndex="8" GridPane.columnIndex="1" fx:id="textField_x8" />
+
+            <Label GridPane.rowIndex="9" GridPane.columnIndex="0" text="s1 x9" />
+            <TextField GridPane.rowIndex="9" GridPane.columnIndex="1" fx:id="textField_x9" />
+
+
+
+
+
+
+
+            <Label GridPane.rowIndex="10" GridPane.columnIndex="0" text="a0 x10" />
+            <TextField GridPane.rowIndex="10" GridPane.columnIndex="1" fx:id="textField_x10" />
+
+            <Label GridPane.rowIndex="11" GridPane.columnIndex="0" text="a1 x11" />
+            <TextField GridPane.rowIndex="11" GridPane.columnIndex="1" fx:id="textField_x11" />
+
+            <Label GridPane.rowIndex="12" GridPane.columnIndex="0" text="a2 x12" />
+            <TextField GridPane.rowIndex="12" GridPane.columnIndex="1" fx:id="textField_x12" />
+
+            <Label GridPane.rowIndex="13" GridPane.columnIndex="0" text="a3 x13" />
+            <TextField GridPane.rowIndex="13" GridPane.columnIndex="1" fx:id="textField_x13" />
+
+            <Label GridPane.rowIndex="14" GridPane.columnIndex="0" text="a4 x14" />
+            <TextField GridPane.rowIndex="14" GridPane.columnIndex="1" fx:id="textField_x14" />
+
+            <Label GridPane.rowIndex="15" GridPane.columnIndex="0" text="a5 x15" />
+            <TextField GridPane.rowIndex="15" GridPane.columnIndex="1" fx:id="textField_x15" />
+
+            <Label GridPane.rowIndex="16" GridPane.columnIndex="0" text="a6 x16" />
+            <TextField GridPane.rowIndex="16" GridPane.columnIndex="1" fx:id="textField_x16" />
+
+            <Label GridPane.rowIndex="17" GridPane.columnIndex="0" text="a7 x17" />
+            <TextField GridPane.rowIndex="17" GridPane.columnIndex="1" fx:id="textField_x17" />
+
+            <Label GridPane.rowIndex="18" GridPane.columnIndex="0" text="s2 x18" />
+            <TextField GridPane.rowIndex="18" GridPane.columnIndex="1" fx:id="textField_x18" />
+
+            <Label GridPane.rowIndex="19" GridPane.columnIndex="0" text="s3 x19" />
+            <TextField GridPane.rowIndex="19" GridPane.columnIndex="1" fx:id="textField_x19" />
+
+
+
+
+
+
+
+            <Label GridPane.rowIndex="20" GridPane.columnIndex="0" text="s4 x20" />
+            <TextField GridPane.rowIndex="20" GridPane.columnIndex="1" fx:id="textField_x20" />
+
+            <Label GridPane.rowIndex="21" GridPane.columnIndex="0" text="s5 x21" />
+            <TextField GridPane.rowIndex="21" GridPane.columnIndex="1" fx:id="textField_x21" />
+
+            <Label GridPane.rowIndex="22" GridPane.columnIndex="0" text="s6 x22" />
+            <TextField GridPane.rowIndex="22" GridPane.columnIndex="1" fx:id="textField_x22" />
+
+            <Label GridPane.rowIndex="23" GridPane.columnIndex="0" text="s7 x23" />
+            <TextField GridPane.rowIndex="23" GridPane.columnIndex="1" fx:id="textField_x23" />
+
+            <Label GridPane.rowIndex="24" GridPane.columnIndex="0" text="s8 x24" />
+            <TextField GridPane.rowIndex="24" GridPane.columnIndex="1" fx:id="textField_x24" />
+
+            <Label GridPane.rowIndex="25" GridPane.columnIndex="0" text="s9 x25" />
+            <TextField GridPane.rowIndex="25" GridPane.columnIndex="1" fx:id="textField_x25" />
+
+            <Label GridPane.rowIndex="26" GridPane.columnIndex="0" text="s10 x26" />
+            <TextField GridPane.rowIndex="26" GridPane.columnIndex="1" fx:id="textField_x26" />
+
+            <Label GridPane.rowIndex="27" GridPane.columnIndex="0" text="s11 x27" />
+            <TextField GridPane.rowIndex="27" GridPane.columnIndex="1" fx:id="textField_x27" />
+
+            <Label GridPane.rowIndex="28" GridPane.columnIndex="0" text="t3 x28" />
+            <TextField GridPane.rowIndex="28" GridPane.columnIndex="1" fx:id="textField_x28" />
+
+            <Label GridPane.rowIndex="29" GridPane.columnIndex="0" text="t4 x29" />
+            <TextField GridPane.rowIndex="29" GridPane.columnIndex="1" fx:id="textField_x29" />
+
+
+
+
+
+            <Label GridPane.rowIndex="30" GridPane.columnIndex="0" text="t5 x30" />
+            <TextField GridPane.rowIndex="30" GridPane.columnIndex="1" fx:id="textField_x30" />
+
+            <Label GridPane.rowIndex="31" GridPane.columnIndex="0" text="t6 x31" />
+            <TextField GridPane.rowIndex="31" GridPane.columnIndex="1" fx:id="textField_x31" />
+
+        </GridPane>
+        </ScrollPane>
+
+    </right>
+
     <bottom>
         <Label id="label" fx:id="label"/>
     </bottom>

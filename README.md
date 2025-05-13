@@ -117,3 +117,26 @@ currently executed by highlighting that line.
 
 The editor can parse the source file again and index it for variable names
 and constants. It can then support the user reading the source code.
+
+
+# git - Changing the remote URL of a subproject
+
+https://stackoverflow.com/questions/913701/how-to-change-the-remote-repository-for-a-git-submodule
+
+Change the URL in .gitmodules, then
+
+```
+git submodule sync --recursive
+```
+
+Check the remote URLs:
+
+```
+git submodule foreach -q git config remote.origin.url
+```
+
+then
+
+```
+git submodule update --init --recursive --remote
+```
