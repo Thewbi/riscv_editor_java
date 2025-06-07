@@ -17,10 +17,8 @@ import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.InlineCssTextArea;
 import org.fxmisc.richtext.LineNumberFactory;
 
-import com.mycompany.assembler.BaseAssembler;
 import com.mycompany.assembler.RiscVAssembler;
 import com.mycompany.common.ByteArrayUtil;
-import com.mycompany.cpu.PipelinedCPU;
 import com.mycompany.cpu.SingleCycleCPU;
 import com.mycompany.data.AsmLine;
 import com.mycompany.data.RISCVRegister;
@@ -163,10 +161,10 @@ public class FXMLController {
 
         codeArea_1.setParagraphGraphicFactory(LineNumberFactory.get(codeArea_1));
 
-        codeArea_1.textProperty().addListener(new ChangeListener() {
+        codeArea_1.textProperty().addListener(new ChangeListener<String>() {
 
             @Override
-            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 // System.out.println("textarea changed from " + oldValue + " to " + newValue);
             }
 
@@ -197,7 +195,8 @@ public class FXMLController {
         //String inputFile = "src/test/resources/riscvasm/string_length.s";
         //String inputFile = "src/test/resources/riscvasm/bltu.s";
         //String inputFile = "src/test/resources/riscvasm/la.s";
-        String inputFile = "src/test/resources/riscvasm/fib.s";
+        //String inputFile = "src/test/resources/riscvasm/fib.s";
+        String inputFile = "src/test/resources/riscvasm/blinky_memory_mapped_LED.s";
 
         // load the source file contents into the codeArea
         codeArea_1.replaceText(Files.readString(Paths.get(inputFile), StandardCharsets.UTF_8));
