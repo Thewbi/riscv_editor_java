@@ -20,6 +20,8 @@ git submodule init
 git submodule update
 ```
 
+## Updating Subprojects to Their Latest Commit
+
 As of Git 1.8.2 new option --remote was added
 
 ```

@@ -1,3 +1,4 @@
 [submodule "riscvassembler_java"]
 	path = riscvassembler_java
 	url = https://github.com/WolfgangBischoffTHAB/riscvassembler_java
+    branch = main

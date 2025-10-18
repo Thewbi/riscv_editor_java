@@ -19,13 +19,13 @@ import org.fxmisc.richtext.LineNumberFactory;
 
 import com.mycompany.assembler.RiscVAssembler;
 import com.mycompany.common.ByteArrayUtil;
-import com.mycompany.cpu.SingleCycleCPU;
+import com.mycompany.cpu.SingleCycle32BitCPU;
 import com.mycompany.data.AsmLine;
 import com.mycompany.data.RISCVRegister;
 import com.mycompany.data.Section;
 import com.mycompany.linkerscriptparser.LinkerScriptParser;
+import com.mycompany.memory.DefaultMemory;
 import com.mycompany.preprocessing.IncludePreprocessor;
-
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -37,14 +37,15 @@ public class FXMLController {
 
     private static final int MEMORY_SIZE_IN_BYTE = 1024 * 2;
 
-    private static final String MAIN_ENTRY_POINT_LABEL = "__main";
+    private static final String MAIN_ENTRY_POINT_LABEL = "main";
 
     private static final String INTERMEDIATE_FILE = "build/preprocessed.s";
 
     private RiscVAssembler assembler;
 
-    private SingleCycleCPU cpu = new SingleCycleCPU();
+    // private SingleCycleCPU cpu = new SingleCycleCPU();
     // private PipelinedCPU cpu = new PipelinedCPU();
+    private SingleCycle32BitCPU cpu = new SingleCycle32BitCPU();
 
     @FXML
     private Label label;
@@ -196,7 +197,8 @@ public class FXMLController {
         //String inputFile = "src/test/resources/riscvasm/bltu.s";
         //String inputFile = "src/test/resources/riscvasm/la.s";
         //String inputFile = "src/test/resources/riscvasm/fib.s";
-        String inputFile = "src/test/resources/riscvasm/blinky_memory_mapped_LED.s";
+        //String inputFile = "src/test/resources/riscvasm/blinky_memory_mapped_LED.s";
+        String inputFile = "src/test/resources/riscvasm/factorial.s";
 
         // load the source file contents into the codeArea
         codeArea_1.replaceText(Files.readString(Paths.get(inputFile), StandardCharsets.UTF_8));
@@ -245,22 +247,76 @@ public class FXMLController {
 
         String asmInputFile = INTERMEDIATE_FILE;
 
-        cpu.memory = new byte[2048];
+        cpu.memory = new DefaultMemory();
+        // cpu.memory = new byte[2048];
         // cpu.memory[80] = 1;
         // cpu.memory[81] = 2;
         // cpu.memory[82] = 3;
         // cpu.memory[83] = 4;
 
+        
+
         assembler = new RiscVAssembler(sectionMap, dummySection);
-        byte[] machineCode = assembler.assemble(sectionMap, asmInputFile);
-        System.arraycopy(machineCode, 0, cpu.memory, 0, machineCode.length);
+        assembler.assemble(sectionMap, asmInputFile);
+
+
+
+        // initialize current position
+        for (Map.Entry<String, Section> entry : sectionMap.entrySet()) {
+            Section section = entry.getValue();
+            if (section.outputSection == null) {
+                continue;
+            }
+            section.outputSection.currentPosition = section.outputSection.memorySpecOrigin;
+        }
+
+        // copy data from the sections into memory
+        for (Map.Entry<String, Section> entry : sectionMap.entrySet()) {
+
+            Section section = entry.getValue();
+            
+            // logger.info("-- Section: " + section.name + " ----------------------");
+
+            if (section.outputSection != null) {
+
+                // logger.info("-- Address: " + ByteArrayUtil.byteToHex(section.outputSection.currentPosition) + "");
+
+                byte[] machineCode = section.byteArrayOutStream.toByteArray();
+
+                // DEBUG output the byte array to the console
+                //ByteOrder byteOrder = ByteOrder.LITTLE_ENDIAN;
+                // ByteOrder byteOrder = ByteOrder.BIG_ENDIAN;
+                // outputHexMachineCode(byteArray, byteOrder);
+
+                cpu.memory.copy(section.outputSection.currentPosition, machineCode, 0, machineCode.length);
+                section.outputSection.currentPosition += machineCode.length;
+            }
+            
+            // logger.info("");
+
+        }
+
+        if ((assembler.labelAddressMap == null) 
+            || (!assembler.labelAddressMap.containsKey(MAIN_ENTRY_POINT_LABEL))) {
+            throw new RuntimeException("No '" + MAIN_ENTRY_POINT_LABEL
+                    + "' label found! Do not know where to execute the application from!");
+        }
+
+        int startAddress = assembler.labelAddressMap.get(MAIN_ENTRY_POINT_LABEL).intValue();
+
+
+
+
+
+        // System.arraycopy(machineCode, 0, cpu.memory, 0, machineCode.length);
+        //cpu.memory.copy(0, machineCode, 0, machineCode.length);
 
         // THIS IS AN ERROR!
         // THE PC SHOULD ONLY START AT ADDRESS 0 IF THIS APPLICATION
         // DOES NOT DEFINE A MAIN ENTRY POINT!
         // IF THE APPLICATION HAS A MAIN FUNCTION / MAIN ENTRY POINT,
         // EXECUTION HAS TO START AT THE MAIN ENTRY POINT!
-        int startAddress = assembler.labelAddressMap.get(MAIN_ENTRY_POINT_LABEL).intValue();
+        // int startAddress = assembler.labelAddressMap.get(MAIN_ENTRY_POINT_LABEL).intValue();
         cpu.pc = startAddress;
 
         // stack-pointer (sp, x2) register:
@@ -278,18 +334,18 @@ public class FXMLController {
         // Without loader, we set it to 0xCAFEBABE = 3405691582 dec
         cpu.registerFile[RISCVRegister.REG_RA.getIndex()] = 0xCAFEBABE;
 
-        cpu.memory = new byte[MEMORY_SIZE_IN_BYTE];
+        // cpu.memory = new byte[MEMORY_SIZE_IN_BYTE];
         // cpu.memory[80] = 1;
         // cpu.memory[81] = 2;
         // cpu.memory[82] = 3;
         // cpu.memory[83] = 4;
 
-        System.arraycopy(machineCode, 0, cpu.memory, 0, machineCode.length);
+        // System.arraycopy(machineCode, 0, cpu.memory, 0, machineCode.length);
 
-        cpu.memory[machineCode.length + 4] = (byte) 0xFF;
-        cpu.memory[machineCode.length + 5] = (byte) 0xFF;
-        cpu.memory[machineCode.length + 6] = (byte) 0xFF;
-        cpu.memory[machineCode.length + 7] = (byte) 0xFF;
+        // cpu.memory[machineCode.length + 4] = (byte) 0xFF;
+        // cpu.memory[machineCode.length + 5] = (byte) 0xFF;
+        // cpu.memory[machineCode.length + 6] = (byte) 0xFF;
+        // cpu.memory[machineCode.length + 7] = (byte) 0xFF;
 
         // // DEBUG - output machine code
         // ByteOrder byteOrder = ByteOrder.LITTLE_ENDIAN;
@@ -365,7 +421,12 @@ public class FXMLController {
         // lineIndex++;
         // }
 
-        cpu.step();
+        try {
+            cpu.step();
+        } catch (IOException e) {
+             // TODO Auto-generated catch block
+             e.printStackTrace();
+        }
 
         // MIPSAssembler assembler = new MIPSAssembler(sectionMap, dummySection);
 
@@ -431,6 +492,7 @@ public class FXMLController {
 
         updateRegisterView();
 
+        /*
         //int address = MEMORY_SIZE_IN_BYTE - 4;
         int address = 2028;
         byte a = cpu.memory[address + 0];
@@ -471,6 +533,7 @@ public class FXMLController {
         d = cpu.memory[address + 3];
         number = ByteArrayUtil.fourByteToInt(a, b, c, d, ByteOrder.LITTLE_ENDIAN);
         System.out.println(number);
+         */
 
         System.out.println("done");
     }
