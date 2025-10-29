@@ -1,3 +1,4 @@
+_start:
 addi  sp, sp, -32           # reserve stack space for function
 sw    s0, 28(sp)            # store previous frame. (s0/fp is the stack zero or frame pointer)
 sw    ra, 24(sp)            # store return address

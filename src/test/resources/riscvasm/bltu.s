@@ -1,4 +1,4 @@
-__main:
+_start:
     li t0, -3
     lui t1, 2
     bltu t0, t1, -8

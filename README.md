@@ -2,7 +2,7 @@
 
 A emulator for riscv with frontend
 
-# git submodules
+# git - Submodules
 
 See https://stackoverflow.com/questions/36554810/how-to-link-folder-from-a-git-repo-to-another-repo
 
@@ -20,7 +20,10 @@ git submodule init
 git submodule update
 ```
 
-## Updating Subprojects to their Latest Commit
+## git - Updating Subprojects to their Latest Commit
+
+Hint: This command will only work correctly when executed from the parent projects folder.
+Executing this command in one of the subproject's folders will not have any effect at all!
 
 As of Git 1.8.2 new option --remote was added
 
@@ -29,6 +32,28 @@ git submodule update --recursive --remote --merge
 ```
 
 will fetch the latest changes from upstream in each submodule, merge them in, and check out the latest revision of the submodule.
+
+## git - Changing the remote URL of a subproject
+
+https://stackoverflow.com/questions/913701/how-to-change-the-remote-repository-for-a-git-submodule
+
+Change the URL in .gitmodules, then
+
+```
+git submodule sync --recursive
+```
+
+Check the remote URLs:
+
+```
+git submodule foreach -q git config remote.origin.url
+```
+
+then
+
+```
+git submodule update --init --recursive --remote
+```
 
 # Error: java.lang.module.FindException: Module javafx.controls not found
 
@@ -121,24 +146,3 @@ The editor can parse the source file again and index it for variable names
 and constants. It can then support the user reading the source code.
 
 
-# git - Changing the remote URL of a subproject
-
-https://stackoverflow.com/questions/913701/how-to-change-the-remote-repository-for-a-git-submodule
-
-Change the URL in .gitmodules, then
-
-```
-git submodule sync --recursive
-```
-
-Check the remote URLs:
-
-```
-git submodule foreach -q git config remote.origin.url
-```
-
-then
-
-```
-git submodule update --init --recursive --remote
-```

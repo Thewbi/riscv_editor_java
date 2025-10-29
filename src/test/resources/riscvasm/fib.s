@@ -72,7 +72,7 @@ __fibonacci:
     lw    s0, -4(sp);           # recover previous frame
     jalr  zero, ra, 0;          # return from function
 
-__main:
+_start:
     lui a0, 6
     jal ra, __fibonacci
     addi x0, x0, 0              # result is in a0 (x10)

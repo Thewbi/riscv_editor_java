@@ -9,6 +9,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * In order to select the assembler file to execute, edit FXMLController.java
+ */
 public class App extends Application {
 
     @Override

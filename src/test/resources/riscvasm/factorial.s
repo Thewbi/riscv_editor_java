@@ -9,9 +9,9 @@
 
 
 	.align	2
-	.globl	main
-	.type	main, @function
-main:
+	.globl	_start
+	.type	_start, @function
+_start:
     # construct stackframe
 	addi	sp,sp,-32
 	sw	    ra,28(sp)

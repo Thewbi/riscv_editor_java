@@ -37,7 +37,7 @@ public class FXMLController {
 
     private static final int MEMORY_SIZE_IN_BYTE = 1024 * 2;
 
-    private static final String MAIN_ENTRY_POINT_LABEL = "main";
+    private static final String MAIN_ENTRY_POINT_LABEL = "_start";
 
     private static final String INTERMEDIATE_FILE = "build/preprocessed.s";
 
@@ -185,21 +185,22 @@ public class FXMLController {
             // System.out.println("{\n" + codeArea_1.getText() + "\n}");
         });
 
-        // //String inputFile = "src/test/resources/projects/snake/Main.asm";
+        // String inputFile = "src/test/resources/projects/snake/Main.asm";
         // String inputFile = "src/test/resources/riscvasm/test.s";
         // String inputFile = "src/test/resources/riscvasm/fibonacci_rvcc.s";
         // String inputFile = "src/test/resources/riscvasm/for_loop_2.s";
         // String inputFile = "src/test/resources/riscvasm/square_with_driver.s";
         // String inputFile = "src/test/resources/riscvasm/if.s";
         // String inputFile = "src/test/resources/riscvasm/quicksort.s";
-        //String inputFile = "src/test/resources/riscvasm/quicksort_clang.s";
-        //String inputFile = "src/test/resources/riscvasm/string_length.s";
-        //String inputFile = "src/test/resources/riscvasm/bltu.s";
-        //String inputFile = "src/test/resources/riscvasm/la.s";
-        //String inputFile = "src/test/resources/riscvasm/fib.s";
-        //String inputFile = "src/test/resources/riscvasm/blinky_memory_mapped_LED.s";
+        // String inputFile = "src/test/resources/riscvasm/quicksort_clang.s";
+        // String inputFile = "src/test/resources/riscvasm/string_length.s";
+        // String inputFile = "src/test/resources/riscvasm/bltu.s";
+        // String inputFile = "src/test/resources/riscvasm/la.s";
+        // String inputFile = "src/test/resources/riscvasm/fib.s";
+        // String inputFile = "src/test/resources/riscvasm/blinky_memory_mapped_LED.s";
         // String inputFile = "src/test/resources/riscvasm/factorial.s";
-        String inputFile = "src/test/resources/riscvasm/gcd.s";
+        // String inputFile = "src/test/resources/riscvasm/gcd.s";
+        String inputFile = "src/test/resources/riscvasm/matrix_mult.s";
 
         // load the source file contents into the codeArea
         codeArea_1.replaceText(Files.readString(Paths.get(inputFile), StandardCharsets.UTF_8));
@@ -289,7 +290,10 @@ public class FXMLController {
                 // ByteOrder byteOrder = ByteOrder.BIG_ENDIAN;
                 // outputHexMachineCode(byteArray, byteOrder);
 
-                cpu.memory.copy(section.outputSection.currentPosition, machineCode, 0, machineCode.length);
+                int currPos = (int) section.outputSection.currentPosition;
+
+                cpu.memory.copy(currPos, machineCode, 0, machineCode.length);
+                
                 section.outputSection.currentPosition += machineCode.length;
             }
             
@@ -536,7 +540,7 @@ public class FXMLController {
         System.out.println(number);
          */
 
-        System.out.println("done");
+        // System.out.println("done");
     }
 
     /**
