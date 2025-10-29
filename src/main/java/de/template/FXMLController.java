@@ -198,7 +198,8 @@ public class FXMLController {
         //String inputFile = "src/test/resources/riscvasm/la.s";
         //String inputFile = "src/test/resources/riscvasm/fib.s";
         //String inputFile = "src/test/resources/riscvasm/blinky_memory_mapped_LED.s";
-        String inputFile = "src/test/resources/riscvasm/factorial.s";
+        // String inputFile = "src/test/resources/riscvasm/factorial.s";
+        String inputFile = "src/test/resources/riscvasm/gcd.s";
 
         // load the source file contents into the codeArea
         codeArea_1.replaceText(Files.readString(Paths.get(inputFile), StandardCharsets.UTF_8));

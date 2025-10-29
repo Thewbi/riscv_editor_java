@@ -1,4 +1,4 @@
-__main:
+main:
 loop_start:
     addi x5, x0, 0x0
     addi x6, x0, 0x0

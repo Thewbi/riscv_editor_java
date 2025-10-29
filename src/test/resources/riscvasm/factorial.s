@@ -2,9 +2,9 @@
 
 	.file	"factorial.c"
 	.option nopic
-	.attribute arch, "rv32i2p0"
-	.attribute unaligned_access, 0
-	.attribute stack_align, 16
+#	.attribute arch, "rv32i2p0"
+#	.attribute unaligned_access, 0
+#	.attribute stack_align, 16
 	.text
 
 
@@ -18,8 +18,8 @@ main:
 	sw	    s0,24(sp)
 	addi	s0,sp,32
 
-    # int init_value = 6;
-	li	    a5, 6
+    # int init_value = 3;
+	li	    a5, 3
 	sw	    a5, -20(s0)
 
     # int result = factorial(6);
@@ -27,19 +27,19 @@ main:
 	li	    a0, 6
 	call	factorial
 
-    brk
+#    brk
 
     # store return value which is in a0 onto the stack variable 'result'
 	sw	    a0, -24(s0)
 
-    brk
+#    brk
 
     # move a0 into a7 so that the result of the factorial is available in a register
     # ant not only on the stack which makes debugging easier
     # a7 == x17
     mv      a7, a0 
 
-    brk
+#    brk
 
     # return 0;
 	li	    a5, 0
